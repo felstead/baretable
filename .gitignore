@@ -1,0 +1,11 @@
+bower_components/
+node_modules/
+dist/
+local/
+
+#Exclude tsc generated files
+js/*.map
+js/ts.js
+
+# exclude debug log files
+debug.log

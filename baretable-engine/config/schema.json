@@ -1,0 +1,213 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Cardinality": {
+            "enum": [
+                "many",
+                "single"
+            ],
+            "type": "string"
+        },
+        "Connection": {
+            "properties": {
+                "adapter": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "adapter",
+                "id"
+            ],
+            "type": "object"
+        },
+        "DataSource": {
+            "properties": {
+                "cardinality": {
+                    "$ref": "#/definitions/Cardinality"
+                },
+                "connectionId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "parameters": {
+                    "items": {
+                        "$ref": "#/definitions/QueryParameter"
+                    },
+                    "type": "array"
+                },
+                "query": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cardinality",
+                "connectionId",
+                "id",
+                "parameters",
+                "query"
+            ],
+            "type": "object"
+        },
+        "EntityActionLevel": {
+            "enum": [
+                "column",
+                "row"
+            ],
+            "type": "string"
+        },
+        "EntityLink": {
+            "properties": {
+                "level": {
+                    "$ref": "#/definitions/EntityActionLevel"
+                },
+                "linkTargetPageId": {
+                    "type": "string"
+                },
+                "parameters": {
+                    "items": {
+                        "$ref": "#/definitions/EntityLinkParameters"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "level",
+                "linkTargetPageId",
+                "parameters"
+            ],
+            "type": "object"
+        },
+        "EntityLinkParameters": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Page": {
+            "properties": {
+                "entities": {
+                    "items": {
+                        "$ref": "#/definitions/PageEntity"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "entities",
+                "id"
+            ],
+            "type": "object"
+        },
+        "PageEntity": {
+            "properties": {
+                "dataSourceId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/EntityLink"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "$ref": "#/definitions/PageEntityType"
+                }
+            },
+            "required": [
+                "dataSourceId",
+                "id",
+                "type"
+            ],
+            "type": "object"
+        },
+        "PageEntityType": {
+            "enum": [
+                "table",
+                "singleRecord",
+                "static"
+            ],
+            "type": "string"
+        },
+        "QueryParameter": {
+            "properties": {
+                "displayName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/QueryParameterType"
+                }
+            },
+            "required": [
+                "displayName",
+                "id",
+                "type"
+            ],
+            "type": "object"
+        },
+        "QueryParameterType": {
+            "enum": [
+                "number",
+                "string"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "connections": {
+            "items": {
+                "$ref": "#/definitions/Connection"
+            },
+            "type": "array"
+        },
+        "dataSources": {
+            "items": {
+                "$ref": "#/definitions/DataSource"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "string"
+        },
+        "pages": {
+            "items": {
+                "$ref": "#/definitions/Page"
+            },
+            "type": "array"
+        },
+        "title": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "connections",
+        "dataSources",
+        "id",
+        "pages",
+        "title"
+    ],
+    "type": "object"
+}
+

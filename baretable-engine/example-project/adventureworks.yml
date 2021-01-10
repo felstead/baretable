@@ -1,0 +1,65 @@
+title: AdventureWorks
+id: adventureworks
+connections:
+  - id: connAW
+    adapter: sqlite3
+    filename: example-project/adventureworks.sqlite3
+
+dataSources:
+  # Customer search data source
+  - id: dsCustomerSearch
+    connectionId: connAW
+    cardinality: many
+    query: |
+      SELECT * FROM Customer WHERE FirstName LIKE '%' || $nameSearch || '%'
+    parameters:
+      - id: nameSearch
+        displayName: Customer Name Snippet
+        type: string
+
+  # Individual customer details
+  - id: dsCustomer
+    connectionId: connAW
+    cardinality: single
+    query: |
+      SELECT * FROM Customer WHERE CustomerID = ?
+    parameters:
+      - id: customerId
+        displayName: CustomerID
+        type: number
+
+
+  - id: dsCustomerOrders
+    connectionId: connAW
+    cardinality: many
+    query: |
+      SELECT * FROM SalesOrderHeader WHERE CustomerID = ?
+    parameters:
+      - id: customerId
+        displayName: CustomerID
+        type: number
+
+pages:
+  # player search page
+  - id: customerSearch
+    entities:
+      - type: table
+        id: customerSearchBox
+        dataSourceId: dsCustomerSearch
+        links:
+          - level: row
+            linkTargetPageId: customer
+            parameters:
+              - id: customerID
+                value: customerID
+
+  # Player details page
+  - id: customer
+    entities:
+      - type: singleRecord
+        id: customerDetails
+        dataSourceId: dsCustomer
+
+      - type: table
+        id: dsCustomerOrders
+        dataSourceId: dsCustomerOrders
